@@ -64,7 +64,7 @@ method get-new-favorite {
         for @fav {
             %.seen{ $_<date> ~ " " ~ $_<name> } = True;
         }
-        @new;
+        @new.reverse;
     };
 }
 
@@ -100,9 +100,10 @@ method save() {
 
         my $max = 30;
         my $i = 0;
-        for %.seen.keys.sort({ $^a cmp $^b }) -> $key {
+        for %.seen.keys.sort({ $^b cmp $^a }) -> $key {
             $i++;
             $fh.print("$key\n");
+            %new{$key} = True;
             last if $i > $max;
         }
     }
