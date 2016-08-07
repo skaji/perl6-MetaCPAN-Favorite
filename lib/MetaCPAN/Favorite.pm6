@@ -27,7 +27,6 @@ class SilentHTTP is HTTP::Tinyish {
     }
 }
 
-has $.uri  = "http://api.metacpan.org/v0/";
 has $.favorite-url = "http://api.metacpan.org/v0/favorite/_search/?fields=user,distribution,date&sort=date:desc&size=10";
 has $.user-url = "http://api.metacpan.org/v0/author/_search/?fields=_id&q=user:";
 has $.distribution-url = "https://metacpan.org/release/";
