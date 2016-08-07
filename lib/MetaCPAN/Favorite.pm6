@@ -34,13 +34,13 @@ has $.cache;
 has %.seen;
 
 method Supply {
-    supply {
+    Supply.on-demand: -> $s {
         self.load;
         my @fav = await self.get-new-favorite;
-        @fav = await @fav.map: -> $f {
+        await @fav.map: -> $f {
             self.get-user-name($f<user>).then: -> $p {
                 my $user = $p.result;
-                %(
+                $s.emit: %(
                     name => $f<name>,
                     date => $f<date>,
                     user => $user,
@@ -49,8 +49,7 @@ method Supply {
             };
         };
         self.save;
-        emit $_ for @fav;
-        done;
+        $s.done;
     };
 }
 

@@ -1,10 +1,16 @@
 #!/usr/bin/env perl6
 use v6;
-use lib "lib", "../lib";
+use lib "lib";
 use MetaCPAN::Favorite;
 
-my $metacpan = MetaCPAN::Favorite.new(cache => "./cache.txt");
+# unlink cache first for test
+my $cache = "./cache.txt";
+$cache.IO.unlink if $cache.IO.e;
+
+my $metacpan = MetaCPAN::Favorite.new(:$cache);
 my $favorite = Supply.interval(60).map({ $metacpan.Supply }).flat;
+
+# my $favorite = $metacpan.Supply; # only once
 
 sub tweet($msg) { note $msg }
 
