@@ -22,7 +22,7 @@ class SilentHTTP is HTTP::Tinyish {
             } else {
                 info("Promise broken: {$p.cause}");
             }
-            return Nil;
+            return;
         };
     }
 }
@@ -56,7 +56,7 @@ method Supply {
 method get-new-favorite {
     SilentHTTP.new.get($.favorite-url).then: sub ($p) {
         my $res = $p.result;
-        return unless $res;
+        return Empty unless $res;
         my @fav = from-json($res)<hits><hits>.map({ $_<fields> }).map: -> $f {
             %(name => $f<distribution>, date => $f<date>, user => $f<user>);
         };
